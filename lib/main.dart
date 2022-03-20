@@ -5,6 +5,20 @@ void main() {
   runApp(Quizzler());
 }
 
+void trueScoreBuilder() {
+  scoreBuilder.add(const Icon(
+    Icons.check,
+    color: Colors.greenAccent,
+  ));
+}
+
+void falseScoreBuilder() {
+  scoreBuilder.add(const Icon(
+    Icons.close,
+    color: Colors.redAccent,
+  ));
+}
+
 class Quizzler extends StatelessWidget {
   Quizzler({Key? key}) : super(key: key);
 
@@ -31,8 +45,11 @@ List<String> questionaire = [
   'Niagara fall is located in Brampton',
   'America is the neighbour to UK',
   'Berlin is the capital of Germany',
-  'South Korea is located in South Africa'
+  'South Korea is located in South Africa',
+  'Warsaw is the capital of Poland',
+  'Rome is situated in Paris'
 ];
+List<bool> answers = [false, true, false, false, true, false, true, false];
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -42,7 +59,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  late int i = 0;
+  late int questionNo = 0;
+  late bool correctAnswer;
   @override
   Widget build(BuildContext context) {
     // i = 0;
@@ -56,9 +74,9 @@ class _HomePageState extends State<HomePage> {
             child: Container(
               alignment: Alignment.center,
               child: Text(
-                questionaire[i],
+                questionaire[questionNo],
                 key: const Key("questionaireTxt"),
-                style: TextStyle(fontSize: 22, color: Colors.white),
+                style: const TextStyle(fontSize: 22, color: Colors.white),
                 textAlign: TextAlign.center,
               ),
             ),
@@ -71,16 +89,17 @@ class _HomePageState extends State<HomePage> {
               style: TextStyle(fontSize: 22, color: Colors.white)),
           onPressed: () {
             setState(() {
-              if (i < 5) {
-                i++;
+              correctAnswer = answers[questionNo];
+              if (correctAnswer == true) {
+                trueScoreBuilder();
+              } else {
+                falseScoreBuilder();
               }
-              scoreBuilder.add(
-                const Icon(
-                  Icons.check,
-                  color: Colors.greenAccent,
-                ),
-              );
             });
+
+            if (questionNo < questionaire.length - 1) {
+              questionNo++;
+            }
           },
         ),
         MaterialButton(
@@ -90,12 +109,15 @@ class _HomePageState extends State<HomePage> {
           ),
           onPressed: () {
             setState(() {
-              scoreBuilder.add(
-                Icon(
-                  Icons.close,
-                  color: Colors.redAccent,
-                ),
-              );
+              correctAnswer = answers[questionNo];
+              if (correctAnswer == false) {
+                trueScoreBuilder();
+              } else {
+                falseScoreBuilder();
+              }
+              if (questionNo < questionaire.length - 1) {
+                questionNo++;
+              }
             });
           },
           color: Colors.redAccent,
