@@ -44,7 +44,7 @@ List<String> questionaire = [
   'Ottawa is the capital of CANADA',
   'Niagara fall is located in Brampton',
   'America is the neighbour to UK',
-  'Berlin is the capital of Germany',
+  'Berlin is the capital of GERMANY',
   'South Korea is located in South Africa',
   'Warsaw is the capital of POLAND',
   'Rome is situated in Paris'
