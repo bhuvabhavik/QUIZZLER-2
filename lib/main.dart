@@ -41,7 +41,7 @@ class Quizzler extends StatelessWidget {
 List<Icon> scoreBuilder = [];
 List<String> questionaire = [
   'Taj Mahal is located in haryana',
-  'Ottawa is the capital of Canada',
+  'Ottawa is the capital of CANADA',
   'Niagara fall is located in Brampton',
   'America is the neighbour to UK',
   'Berlin is the capital of Germany',
