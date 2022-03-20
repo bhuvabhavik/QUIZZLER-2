@@ -46,7 +46,7 @@ List<String> questionaire = [
   'America is the neighbour to UK',
   'Berlin is the capital of Germany',
   'South Korea is located in South Africa',
-  'Warsaw is the capital of Poland',
+  'Warsaw is the capital of POLAND',
   'Rome is situated in Paris'
 ];
 List<bool> answers = [false, true, false, false, true, false, true, false];
