@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'question.dart';
+import 'world_gk_question.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
+
+WorldGkQuestion worldGkQuestion = WorldGkQuestion();
 
 void main() {
   runApp(Quizzler());
@@ -39,17 +44,7 @@ class Quizzler extends StatelessWidget {
 }
 
 List<Icon> scoreBuilder = [];
-List<String> questionaire = [
-  'Taj Mahal is located in haryana',
-  'Ottawa is the capital of CANADA',
-  'Niagara fall is located in Brampton',
-  'America is the neighbour to UK',
-  'Berlin is the capital of GERMANY',
-  'South Korea is located in South Africa',
-  'Warsaw is the capital of POLAND',
-  'Rome is situated in Paris'
-];
-List<bool> answers = [false, true, false, false, true, false, true, false];
+late int tracker;
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -59,8 +54,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  late int questionNo = 0;
   late bool correctAnswer;
+
   @override
   Widget build(BuildContext context) {
     // i = 0;
@@ -74,7 +69,7 @@ class _HomePageState extends State<HomePage> {
             child: Container(
               alignment: Alignment.center,
               child: Text(
-                questionaire[questionNo],
+                worldGkQuestion.getQuestion(),
                 key: const Key("questionaireTxt"),
                 style: const TextStyle(fontSize: 22, color: Colors.white),
                 textAlign: TextAlign.center,
@@ -89,17 +84,19 @@ class _HomePageState extends State<HomePage> {
               style: TextStyle(fontSize: 22, color: Colors.white)),
           onPressed: () {
             setState(() {
-              correctAnswer = answers[questionNo];
+              correctAnswer = worldGkQuestion.getAnswer();
               if (correctAnswer == true) {
                 trueScoreBuilder();
+                tracker = worldGkQuestion.nextQuestion();
               } else {
                 falseScoreBuilder();
+                tracker = worldGkQuestion.nextQuestion();
+              }
+
+              if (worldGkQuestion.isFinished() == true) {
+                callAlert();
               }
             });
-
-            if (questionNo < questionaire.length - 1) {
-              questionNo++;
-            }
           },
         ),
         MaterialButton(
@@ -109,14 +106,17 @@ class _HomePageState extends State<HomePage> {
           ),
           onPressed: () {
             setState(() {
-              correctAnswer = answers[questionNo];
+              correctAnswer = worldGkQuestion.getAnswer();
+
               if (correctAnswer == false) {
                 trueScoreBuilder();
+                tracker = worldGkQuestion.nextQuestion();
               } else {
                 falseScoreBuilder();
+                tracker = worldGkQuestion.nextQuestion();
               }
-              if (questionNo < questionaire.length - 1) {
-                questionNo++;
+              if (worldGkQuestion.isFinished() == true) {
+                callAlert();
               }
             });
           },
@@ -130,5 +130,15 @@ class _HomePageState extends State<HomePage> {
         )
       ],
     );
+  }
+
+  void callAlert() {
+    Alert(
+            context: context,
+            title: "Finished",
+            desc: "You\'ve reached the end of the game.")
+        .show();
+    scoreBuilder = [];
+    worldGkQuestion.reset();
   }
 }
